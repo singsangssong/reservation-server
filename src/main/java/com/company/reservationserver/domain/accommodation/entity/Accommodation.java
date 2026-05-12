@@ -2,6 +2,7 @@ package com.company.reservationserver.domain.accommodation.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,17 @@ public class Accommodation {
 
     @Column(name = "remained_stock", nullable = false)
     private Integer remainedStock;
+
+    @Builder
+    public Accommodation(String name, Long price, LocalDateTime checkInTime,
+                         LocalDateTime checkOutTime, Integer totalStock) {
+        this.name = name;
+        this.price = price;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.totalStock = totalStock;
+        this.remainedStock = totalStock;
+    }
 
     // DB 상의 재고 차감을 위한 메서드 (Redis 처리 후 최종 반영 시 사용)
     public void deductStock() {
