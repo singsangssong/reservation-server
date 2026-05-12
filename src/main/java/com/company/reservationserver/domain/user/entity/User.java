@@ -1,6 +1,7 @@
 package com.company.reservationserver.domain.user.entity;
 
 import com.company.reservationserver.common.BaseTimeEntity;
+import com.company.reservationserver.domain.user.exception.PointNotEnoughException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,6 +30,15 @@ public class User extends BaseTimeEntity {
     public void deductPoints(Long amount) {
         if (this.pointY < amount) {
             throw new IllegalArgumentException("포인트가 부족합니다.");
+        }
+        this.pointY -= amount;
+    }
+
+    public void deductPoint(Long amount) {
+        if (amount <= 0) return;
+
+        if (this.pointY < amount) {
+            throw new PointNotEnoughException(); // 커스텀 예외로 변경!
         }
         this.pointY -= amount;
     }

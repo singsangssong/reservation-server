@@ -1,9 +1,11 @@
 package com.company.reservationserver.domain.order.service;
 
 import com.company.reservationserver.domain.accommodation.entity.Accommodation;
+import com.company.reservationserver.domain.accommodation.exception.AccommodationNotFoundException;
 import com.company.reservationserver.domain.accommodation.repository.AccommodationRepository;
 import com.company.reservationserver.domain.order.dto.CheckoutResponse;
 import com.company.reservationserver.domain.user.entity.User;
+import com.company.reservationserver.domain.user.exception.UserNotFoundException;
 import com.company.reservationserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,10 @@ public class CheckoutService {
     @Transactional(readOnly = true)
     public CheckoutResponse getCheckoutInfo(Long userId, Long accommodationId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(UserNotFoundException::new);
 
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
-                .orElseThrow(() -> new IllegalArgumentException("숙소 정보를 찾을 수 없습니다."));
+                .orElseThrow(AccommodationNotFoundException::new);
 
         return CheckoutResponse.builder()
                 .userId(user.getId())

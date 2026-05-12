@@ -1,6 +1,7 @@
 package com.company.reservationserver.domain.order.entity;
 
 import com.company.reservationserver.common.BaseTimeEntity;
+import com.company.reservationserver.domain.payment.dto.BookingRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,6 +41,16 @@ public class Order extends BaseTimeEntity {
         this.status = status;
         this.totalPrice = totalPrice;
         this.idempotencyKey = idempotencyKey;
+    }
+
+    public static Order createPending(BookingRequest request) {
+        return Order.builder()
+                .userId(request.userId())
+                .productId(request.accommodationId())
+                .status(OrderStatus.PENDING)
+                .totalPrice(request.calculateTotalAmount())
+                .idempotencyKey(request.idempotencyKey())
+                .build();
     }
 
     public void markAsSuccess() {
