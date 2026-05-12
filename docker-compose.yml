@@ -1,0 +1,36 @@
+# docker-compose.yml (local)
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.33
+    platform: linux/amd64
+    container_name: reservation-mysql
+    ports:
+      - 13307:3306
+    environment:
+      MYSQL_DATABASE: reservation_db
+      MYSQL_USER: client
+      MYSQL_PASSWORD: password123
+      MYSQL_ROOT_PASSWORD: rootpassword
+    command:
+      - -bind-address=0.0.0.0
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    networks:
+      - focus-network
+
+  redis:
+    image: redis:latest
+    platform: linux/amd64
+    container_name: reservation-redis
+    restart: always
+    ports:
+      - "16379:6379"
+    networks:
+      - focus-network
+
+networks:
+  focus-network:
+    driver: bridge

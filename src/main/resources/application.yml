@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: reservation-server
+
+  datasource:
+    url: jdbc:mysql://localhost:13306/reservation_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: client
+    password: password123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+       format_sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/sql/data.sql
+
+  data:
+    redis:
+      host: localhost
+      port: 16379
