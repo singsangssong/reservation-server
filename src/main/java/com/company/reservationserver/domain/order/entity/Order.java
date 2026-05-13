@@ -1,6 +1,6 @@
 package com.company.reservationserver.domain.order.entity;
 
-import com.company.reservationserver.common.BaseTimeEntity;
+import com.company.reservationserver.support.entity.BaseTimeEntity;
 import com.company.reservationserver.domain.payment.dto.BookingRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

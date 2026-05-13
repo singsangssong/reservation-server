@@ -20,15 +20,16 @@ public class OrderController {
     @GetMapping("/checkout")
     public ResponseEntity<CheckoutResponse> getCheckoutInfo(
             @RequestParam Long userId,
-            @RequestParam Long accommodationId) {
-
+            @RequestParam Long accommodationId
+    ) {
         CheckoutResponse response = checkoutService.getCheckoutInfo(userId, accommodationId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/booking")
-    public ResponseEntity<BookingResponse> postBooking(@Valid @RequestBody BookingRequest request) {
-        // @Valid 어노테이션이 DTO의 조건들을 1차 검증하고, 실패 시 MethodArgumentNotValidException 발생
+    public ResponseEntity<BookingResponse> postBooking(
+            @Valid @RequestBody BookingRequest request
+    ) {
         BookingResponse response = bookingService.postBooking(request);
         return ResponseEntity.ok(response);
     }

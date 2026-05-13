@@ -18,6 +18,8 @@ import com.company.reservationserver.domain.payment.repository.PaymentRepository
 import com.company.reservationserver.domain.user.entity.User;
 import com.company.reservationserver.domain.user.exception.UserNotFoundException;
 import com.company.reservationserver.domain.user.repository.UserRepository;
+import com.company.reservationserver.support.annotation.DistributedLock;
+import com.company.reservationserver.support.annotation.Idempotent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,8 @@ public class BookingService {
     private final UserRepository userRepository;
     private final AccommodationRepository accommodationRepository;
 
+    @DistributedLock(key = "#request.accommodationId()")
+    @Idempotent(key = "#request.idempotencyKey()")
     @Transactional
     public BookingResponse postBooking(BookingRequest request) {
         // 1. 요청 비즈니스 규칙 검증 (시간, 결제 수단 혼용 등)

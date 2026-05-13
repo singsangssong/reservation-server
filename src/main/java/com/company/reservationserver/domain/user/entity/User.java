@@ -1,6 +1,6 @@
 package com.company.reservationserver.domain.user.entity;
 
-import com.company.reservationserver.common.BaseTimeEntity;
+import com.company.reservationserver.support.entity.BaseTimeEntity;
 import com.company.reservationserver.domain.user.exception.PointNotEnoughException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

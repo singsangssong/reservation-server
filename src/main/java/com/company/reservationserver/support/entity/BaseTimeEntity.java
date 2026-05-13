@@ -1,4 +1,4 @@
-package com.company.reservationserver.common;
+package com.company.reservationserver.support.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
