@@ -36,7 +36,7 @@ public class BookingCoreService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
 
-    // 💡 1. 평소에 동작하는 Redis 락 메인 로직
+    // 1. 평소에 동작하는 Redis 락 메인 로직
     @DistributedLock(key = "#request.accommodationId()")
     @Idempotent(key = "#request.idempotencyKey()")
     @Transactional
@@ -51,7 +51,7 @@ public class BookingCoreService {
         return processBooking(request, user, accommodation);
     }
 
-    // 💡 2. Redis 장애 시 동작하는 DB 비관적 락 Fallback 로직
+    // 2. Redis 장애 시 동작하는 DB 비관적 락 Fallback 로직
     @Transactional
     public BookingResponse postBookingWithPessimisticLock(BookingRequest request) {
         User user = userRepository.findById(request.userId())
@@ -65,7 +65,7 @@ public class BookingCoreService {
         return processBooking(request, user, accommodation);
     }
 
-    // 💡 3. 중복되는 순수 비즈니스 로직을 private으로 빼서 재사용
+    // 3. 중복되는 순수 비즈니스 로직을 private으로 빼서 재사용
     private BookingResponse processBooking(BookingRequest request, User user, Accommodation accommodation) {
         user.deductPoint(request.getPointAmount());
         accommodation.deductStock();

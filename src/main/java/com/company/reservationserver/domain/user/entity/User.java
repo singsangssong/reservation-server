@@ -19,7 +19,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "point", nullable = false)
+    @Column(nullable = false)
     private Long point;
 
     @Builder

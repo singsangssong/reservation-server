@@ -1,5 +1,5 @@
 -- 1. 테스트 유저 (100,000 포인트 보유)
-INSERT INTO users (user_id, point_y, created_at, updated_at)
+INSERT INTO users (user_id, point, created_at, updated_at)
 VALUES (1, 100000, NOW(), NOW());
 
 -- 2. 테스트용 특가 숙소 상품 (가격: 50,000원, 재고: 10개)
