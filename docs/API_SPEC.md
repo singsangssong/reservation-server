@@ -11,7 +11,6 @@ API 호출 실패 시 아래와 같은 형식으로 에러가 반환됩니다.
 
 ```json
 {
-  "code": "BAD_REQUEST",
   "message": "포인트가 부족합니다."
 }
 ```
@@ -63,6 +62,7 @@ API 호출 실패 시 아래와 같은 형식으로 에러가 반환됩니다.
   "userPoint": 100000,
   "accommodationId": 1,
   "accommodationName": "초특가 오션뷰 펜션",
+  "eventStartTime": "2026-05-01T00:00:00",
   "price": 50000,
   "checkInTime": "2026-06-01T15:00:00",
   "checkOutTime": "2026-06-02T11:00:00"
@@ -107,21 +107,18 @@ API 호출 실패 시 아래와 같은 형식으로 에러가 반환됩니다.
 1. 재고 소진 시
     ```json
     {
-      "code": "CONFLICT",
       "message": "재고가 소진되었습니다."
     }
     ```
 2. 예약 오픈 시간 전 호출 시
     ```json
     {
-      "code": "BAD_REQUEST",
       "message": "아직 예약 오픈 시간이 아닙니다."
     }
     ```
 3. 서버 과부하 / 서킷 브레이커 작동 시
     ```json
     {
-      "code": "SERVICE_UNAVAILABLE",
       "message": "현재 접속자가 많아 서비스가 지연되고 있습니다. 잠시 후 다시 시도해주세요."
     }
     ```
