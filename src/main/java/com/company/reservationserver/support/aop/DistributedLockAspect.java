@@ -32,9 +32,9 @@ public class DistributedLockAspect {
         DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
 
         // SpEL을 이용해 동적으로 락 키 생성
-        String dynamicKey = (String) CustomSpELParser.getDynamicValue(
+        Object dynamicKey = CustomSpELParser.getDynamicValue(
                 signature.getParameterNames(), joinPoint.getArgs(), distributedLock.key());
-        String lockKey = REDISSON_LOCK_PREFIX + dynamicKey;
+        String lockKey = REDISSON_LOCK_PREFIX + String.valueOf(dynamicKey);
 
         RLock lock = redissonClient.getLock(lockKey);
 

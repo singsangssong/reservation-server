@@ -33,9 +33,9 @@ public class IdempotencyAspect {
         Method method = signature.getMethod();
         Idempotent idempotent = method.getAnnotation(Idempotent.class);
 
-        String dynamicKey = (String) CustomSpELParser.getDynamicValue(
+        Object dynamicKey = CustomSpELParser.getDynamicValue(
                 signature.getParameterNames(), joinPoint.getArgs(), idempotent.key());
-        String redisKey = IDEMPOTENCY_PREFIX + dynamicKey;
+        String redisKey = IDEMPOTENCY_PREFIX + String.valueOf(dynamicKey);
 
         RBucket<String> bucket = redissonClient.getBucket(redisKey);
 
