@@ -63,7 +63,7 @@ class BookingConcurrencyTest {
                 .build();
         savedAccommodationId = accommodationRepository.save(accommodation).getId();
 
-        // 100명의 유저 생성 (포인트 빵빵하게)
+        // 100명의 유저 생성
         userIds.clear();
         for (int i = 0; i < 100; i++) {
             User savedUser = userRepository.save(new User(100000L));
@@ -100,7 +100,7 @@ class BookingConcurrencyTest {
                     BookingRequest request = new BookingRequest(
                             userId,
                             savedAccommodationId,
-                            "uuid-" + userId, // 각기 다른 멱등성 키 (동시성 제어만 확인)
+                            "uuid-" + userId, // 각기 다른 멱등성 키
                             List.of(new PaymentRequest(PaymentMethod.CARD, 50000L))
                     );
                     bookingService.postBooking(request);
@@ -117,20 +117,20 @@ class BookingConcurrencyTest {
 
         latch.await(); // 모든 스레드가 작업을 마칠 때까지 메인 스레드 대기
 
-        // then: DB에서 숙소를 다시 조회해서 잔여 재고 확인
+        // then
         Accommodation findAccommodation = accommodationRepository.findById(savedAccommodationId).orElseThrow();
 
         System.out.println("성공 횟수: " + successCount.get());
         System.out.println("실패 횟수: " + failCount.get());
 
-        // 재고는 10개였으므로 정확히 10번만 성공하고 90번은 실패해야 한다!
+        // 재고는 10개였으므로 정확히 10번만 성공하고 90번은 실패해야 한다
         assertEquals(10, successCount.get());
         assertEquals(90, failCount.get());
         assertEquals(0, findAccommodation.getRemainedStock());
     }
 
     @Test
-    @DisplayName("멱등성 제어: 따닥! 동일한 멱등성 키로 100번의 요청이 동시에 와도 단 1번만 성공해야 한다")
+    @DisplayName("멱등성 제어: 동일한 멱등성 키로 100번의 요청이 동시에 와도 단 1번만 성공해야 한다")
     void postBooking_Idempotency_Duplicated() throws InterruptedException {
         // given
         int threadCount = 100;
@@ -140,7 +140,7 @@ class BookingConcurrencyTest {
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failCount = new AtomicInteger(0);
 
-        // 💡 핵심: 1명의 동일한 유저가, 1개의 동일한 멱등성 키로 100번 요청을 보냄
+        // 1명의 동일한 유저가, 1개의 동일한 멱등성 키로 100번 요청을 보냄
         final long sameUserId = userIds.get(0);
         final String sameIdempotencyKey = "duplicate-key-9999";
 
@@ -171,7 +171,7 @@ class BookingConcurrencyTest {
         System.out.println("멱등성 성공 횟수: " + successCount.get());
         System.out.println("멱등성 실패 횟수: " + failCount.get());
 
-        // then: 100번을 보냈지만, 결제는 딱 1번만 성공해야 함!
+        // then
         assertEquals(1, successCount.get());
         assertEquals(99, failCount.get());
     }

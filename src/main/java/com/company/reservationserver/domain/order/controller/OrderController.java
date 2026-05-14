@@ -4,6 +4,7 @@ import com.company.reservationserver.domain.order.service.BookingService;
 import com.company.reservationserver.domain.payment.dto.BookingRequest;
 import com.company.reservationserver.domain.payment.dto.BookingResponse;
 import com.company.reservationserver.support.exception.SystemOverloadedException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +30,17 @@ public class OrderController {
     }
 
     public ResponseEntity<BookingResponse> fastFailFallback(BookingRequest request, Throwable t) {
-        // 비즈니스 예외(재고 부족 등)는 차단하지 않고 그대로 던짐
-        if (t instanceof IllegalStateException || t instanceof IllegalArgumentException) {
+        // 1. 서킷 브레이커가 열려서(OPEN) Resilience4j가 접근을 원천 차단한 경우
+        if (t instanceof CallNotPermittedException) {
+            log.error("[서킷 브레이커 작동] 시스템 과부하로 인해 요청을 차단합니다. (상태: OPEN)");
+            throw new SystemOverloadedException();
+        }
+
+        // 2. 그 외의 모든 예외(커스텀 예외 400, 404, 409 등)는 건드리지 않고 그대로 다시 던집니다.
+        if (t instanceof RuntimeException) {
             throw (RuntimeException) t;
         }
 
-        // 인프라 장애로 인한 서킷 차단 시
-        log.error("[서킷 브레이커 작동] 시스템 과부하로 인해 요청을 차단합니다. 원인: {}", t.getMessage());
-
-        // 503 Service Unavailable 상태코드 반환 (클라이언트에게 잠시 후 다시 시도하라고 알림)
-        throw new SystemOverloadedException();
+        throw new RuntimeException(t);
     }
 }

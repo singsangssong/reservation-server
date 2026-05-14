@@ -26,14 +26,6 @@ public class CheckoutService {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(AccommodationNotFoundException::new);
 
-        return CheckoutResponse.builder()
-                .userId(user.getId())
-                .pointY(user.getPointY())
-                .accommodationId(accommodation.getId())
-                .accommodationName(accommodation.getName())
-                .price(accommodation.getPrice())
-                .checkInTime(accommodation.getCheckInTime())
-                .checkOutTime(accommodation.getCheckOutTime())
-                .build();
+        return CheckoutResponse.of(user, accommodation);
     }
 }
