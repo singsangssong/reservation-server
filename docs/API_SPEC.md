@@ -95,13 +95,18 @@ API 호출 실패 시 아래와 같은 형식으로 에러가 반환됩니다.
 **200 OK**
 ```json
 {
-  "orderId": 101,
+  "orderId": 1,
   "status": "SUCCESS",
-  "totalAmount": 50000,
-  "accommodationName": "초특가 오션뷰 펜션",
-  "message": "예약이 성공적으로 완료되었습니다."
+  "totalPrice": 50000,
+  "paymentInfos": [
+    {
+      "method": "CARD",
+      "amount": 50000
+    }
+  ]
 }
 ```
+
 
 **실패 응답**
 1. 재고 소진 시
@@ -120,5 +125,11 @@ API 호출 실패 시 아래와 같은 형식으로 에러가 반환됩니다.
     ```json
     {
       "message": "현재 접속자가 많아 서비스가 지연되고 있습니다. 잠시 후 다시 시도해주세요."
+    }
+    ```
+4. 신용카드, Y페이 혼용 시
+   ```json
+    {
+      "message": "신용카드와 Y페이는 혼용할 수 없습니다."
     }
     ```

@@ -17,7 +17,7 @@
 ### 1. Schema Description
 * **`users` (사용자)**
    * `user_id` (PK): 사용자 고유 식별자
-   * `point_y`: 보유 포인트 (Y페이 잔액)
+   * `point`: 보유 포인트
    * `created_at`, `updated_at`: 생성/수정 일시
 
 * **`accommodations` (숙소)**
@@ -39,7 +39,7 @@
 * **`payments` (결제 내역)**
    * `payment_id` (PK): 결제 고유 식별자
    * `order_id` (FK): 연관된 주문 ID
-   * `payment_method`: 결제 수단 (CARD, POINT 등)
+   * `payment_method`: 결제 수단 (CARD, POINT, Y_PAY)
    * `amount`: 결제 금액
    * `status`: 결제 처리 상태 (SUCCESS, FAILED)
 
@@ -48,7 +48,7 @@
 erDiagram
     users {
         Long user_id PK "사용자 고유 식별자"
-        Long point_y "Y페이 잔액"
+        Long point "포인트"
         LocalDateTime created_at "생성 일시"
         LocalDateTime updated_at "수정 일시"
     }
@@ -78,7 +78,7 @@ erDiagram
     payments {
         Long payment_id PK "결제 고유 식별자"
         Long order_id FK "주문 ID"
-        String payment_method "결제 수단 (CARD, POINT 등)"
+        String payment_method "결제 수단 (CARD, POINT, Y_PAY)"
         Long amount "결제 금액"
         String status "결제 상태"
         LocalDateTime created_at "생성 일시"
@@ -177,8 +177,8 @@ docker-compose up -d
 
 ### 2. 어플리케이션 실행
 Spring Boot 애플리케이션을 구동합니다. 구동이 완료되면 data.sql을 통해 아래의 테스트 데이터가 자동으로 세팅됩니다.
-- 테스트 유저: userId = 1 (보유 포인트: 100,000 Y페이)
-- 테스트 숙소: accommodationId = 1 (가격: 50,000원, 총 재고: 10개, 현재 시간 기준 예약 오픈 상태)
+- `테스트 유저`: `userId = 1` (보유 포인트: 100,000 Y페이)
+- `테스트 숙소`: `accommodationId = 1` (가격: 50,000원, 총 재고: 10개, 현재 시간 기준 예약 오픈 상태)
 
 ### 3. API 테스트 방법
 1. 숙소 목록 확인 (테스트 ID 확보)
@@ -198,7 +198,11 @@ Spring Boot 애플리케이션을 구동합니다. 구동이 완료되면 data.s
   "payments": [
     {
       "method": "CARD",
-      "amount": 50000
+      "amount": 40000
+    },
+    {
+      "method": "Y_POINT",
+      "amount": 10000
     }
   ]
 }
