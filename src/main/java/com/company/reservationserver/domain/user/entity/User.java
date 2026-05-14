@@ -27,7 +27,6 @@ public class User extends BaseTimeEntity {
         this.pointY = pointY;
     }
 
-    // 포인트 차감을 위한 비즈니스 메서드 (객체지향적 설계)
     public void deductPoints(Long amount) {
         if (this.pointY < amount) {
             throw new IllegalArgumentException("포인트가 부족합니다.");
@@ -39,7 +38,7 @@ public class User extends BaseTimeEntity {
         if (amount <= 0) return;
 
         if (this.pointY < amount) {
-            throw new PointNotEnoughException(); // 커스텀 예외로 변경!
+            throw new PointNotEnoughException();
         }
         this.pointY -= amount;
     }

@@ -22,8 +22,8 @@ public class Order extends BaseTimeEntity {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @Column(name = "accommodation_id", nullable = false)
+    private Long accommodationId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -36,9 +36,9 @@ public class Order extends BaseTimeEntity {
     private String idempotencyKey;
 
     @Builder
-    public Order(Long userId, Long productId, OrderStatus status, Long totalPrice, String idempotencyKey) {
+    public Order(Long userId, Long accommodationId, OrderStatus status, Long totalPrice, String idempotencyKey) {
         this.userId = userId;
-        this.productId = productId;
+        this.accommodationId = accommodationId;
         this.status = status;
         this.totalPrice = totalPrice;
         this.idempotencyKey = idempotencyKey;
@@ -47,7 +47,7 @@ public class Order extends BaseTimeEntity {
     public static Order createPending(BookingRequest request) {
         return Order.builder()
                 .userId(request.userId())
-                .productId(request.accommodationId())
+                .accommodationId(request.accommodationId())
                 .status(OrderStatus.PENDING)
                 .totalPrice(request.calculateTotalAmount())
                 .idempotencyKey(request.idempotencyKey())
