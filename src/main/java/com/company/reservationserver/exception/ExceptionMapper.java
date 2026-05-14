@@ -7,6 +7,7 @@ import com.company.reservationserver.domain.payment.exception.PaymentFailedExcep
 import com.company.reservationserver.domain.payment.exception.PaymentMethodMixedException;
 import com.company.reservationserver.domain.user.exception.PointNotEnoughException;
 import com.company.reservationserver.domain.user.exception.UserNotFoundException;
+import com.company.reservationserver.support.exception.SystemOverloadedException;
 import org.springframework.http.HttpStatus;
 
 import java.util.LinkedHashMap;
@@ -39,5 +40,7 @@ public class ExceptionMapper {
                 ExceptionSituation.of("아직 예약 오픈 시간이 아닙니다.", HttpStatus.BAD_REQUEST));
         mapper.put(PaymentMethodMixedException.class,
                 ExceptionSituation.of("신용카드와 Y페이는 혼용할 수 없습니다.", HttpStatus.BAD_REQUEST));
+        mapper.put(SystemOverloadedException.class,
+                ExceptionSituation.of("현재 접속자가 많아 서비스가 지연되고 있습니다. 잠시 후 다시 시도해주세요.", HttpStatus.SERVICE_UNAVAILABLE));
     }
 }

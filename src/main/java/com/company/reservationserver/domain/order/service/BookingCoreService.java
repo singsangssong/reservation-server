@@ -41,11 +41,12 @@ public class BookingCoreService {
     @Idempotent(key = "#request.idempotencyKey()")
     @Transactional
     public BookingResponse postBookingWithRedisLock(BookingRequest request) {
-        bookingValidator.validate(request);
         User user = userRepository.findById(request.userId())
                 .orElseThrow(UserNotFoundException::new);
         Accommodation accommodation = accommodationRepository.findById(request.accommodationId())
                 .orElseThrow(AccommodationNotFoundException::new);
+
+        bookingValidator.validate(request, accommodation);
 
         return processBooking(request, user, accommodation);
     }
@@ -53,12 +54,13 @@ public class BookingCoreService {
     // 💡 2. Redis 장애 시 동작하는 DB 비관적 락 Fallback 로직
     @Transactional
     public BookingResponse postBookingWithPessimisticLock(BookingRequest request) {
-        bookingValidator.validate(request);
         User user = userRepository.findById(request.userId())
                 .orElseThrow(UserNotFoundException::new);
         // 비관적 락 전용 쿼리 호출
         Accommodation accommodation = accommodationRepository.findByIdForUpdate(request.accommodationId())
                 .orElseThrow(AccommodationNotFoundException::new);
+
+        bookingValidator.validate(request, accommodation);
 
         return processBooking(request, user, accommodation);
     }

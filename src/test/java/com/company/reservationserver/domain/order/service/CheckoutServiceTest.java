@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,8 +63,9 @@ class CheckoutServiceTest {
         Accommodation accommodation = Accommodation.builder()
                 .name("초특가 오션뷰 펜션")
                 .price(50000L)
-                .checkInTime(java.time.LocalDateTime.of(2026, 6, 1, 15, 0))
-                .checkOutTime(java.time.LocalDateTime.of(2026, 6, 2, 11, 0))
+                .eventStartTime(LocalDateTime.of(2026, 5, 1, 0, 0))
+                .checkInTime(LocalDateTime.of(2026, 6, 1, 15, 0))
+                .checkOutTime(LocalDateTime.of(2026, 6, 2, 11, 0))
                 .totalStock(10)
                 .build();
         ReflectionTestUtils.setField(accommodation, "id", 1L);

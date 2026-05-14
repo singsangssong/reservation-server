@@ -16,6 +16,7 @@ public class Accommodation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "accommodation_id")
     private Long id;
 
     @Column(nullable = false)
@@ -23,6 +24,9 @@ public class Accommodation {
 
     @Column(nullable = false)
     private Long price;
+
+    @Column(name = "event_start_time", nullable = false)
+    private LocalDateTime eventStartTime;
 
     @Column(name = "check_in_time", nullable = false)
     private LocalDateTime checkInTime;
@@ -37,17 +41,22 @@ public class Accommodation {
     private Integer remainedStock;
 
     @Builder
-    public Accommodation(String name, Long price, LocalDateTime checkInTime,
-                         LocalDateTime checkOutTime, Integer totalStock) {
+    public Accommodation(String name, Long price, LocalDateTime eventStartTime,
+                         LocalDateTime checkInTime, LocalDateTime checkOutTime,
+                         Integer totalStock) {
         this.name = name;
         this.price = price;
+        this.eventStartTime = eventStartTime;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.totalStock = totalStock;
         this.remainedStock = totalStock;
     }
 
-    // DB 상의 재고 차감을 위한 메서드 (Redis 처리 후 최종 반영 시 사용)
+    public boolean isBookable(LocalDateTime now) {
+        return !now.isBefore(eventStartTime);
+    }
+
     public void deductStock() {
         if (this.remainedStock <= 0) {
             throw new IllegalStateException("재고가 소진되었습니다.");

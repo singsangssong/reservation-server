@@ -1,24 +1,25 @@
 package com.company.reservationserver.domain.order.validator;
 
+import com.company.reservationserver.domain.accommodation.entity.Accommodation;
 import com.company.reservationserver.domain.order.exception.NotOpenTimeException;
 import com.company.reservationserver.domain.payment.dto.BookingRequest;
 import com.company.reservationserver.domain.payment.entity.PaymentMethod;
 import com.company.reservationserver.domain.payment.exception.PaymentMethodMixedException;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Component
 public class BookingValidator {
 
-    public void validate(BookingRequest request) {
-        validateOpenTime();
+    public void validate(BookingRequest request, Accommodation accommodation) {
+        validateOpenTime(accommodation);
         validatePaymentMethods(request);
     }
 
-    private void validateOpenTime() {
-        LocalTime nowTime = LocalTime.now();
-        if (nowTime.isBefore(LocalTime.MIDNIGHT) || nowTime.isAfter(LocalTime.of(23, 0))) {
+    private void validateOpenTime(Accommodation accommodation) {
+        LocalDateTime now = LocalDateTime.now();
+        if (!accommodation.isBookable(now)) {
             throw new NotOpenTimeException();
         }
     }

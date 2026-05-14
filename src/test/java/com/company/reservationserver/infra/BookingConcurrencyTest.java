@@ -50,10 +50,13 @@ class BookingConcurrencyTest {
 
     @BeforeEach
     void setUp() {
+        LocalDateTime now = LocalDateTime.now();
+
         // 테스트 전 데이터 세팅: 재고가 딱 10개인 숙소 생성
         Accommodation accommodation = Accommodation.builder()
                 .name("선착순 10명 호캉스")
                 .price(50000L)
+                .eventStartTime(now.minusHours(1))
                 .totalStock(10)
                 .checkInTime(LocalDateTime.now().plusDays(1).withHour(15).withMinute(0).withSecond(0)) // 내일 15시
                 .checkOutTime(LocalDateTime.now().plusDays(2).withHour(11).withMinute(0).withSecond(0)) // 모레 11시

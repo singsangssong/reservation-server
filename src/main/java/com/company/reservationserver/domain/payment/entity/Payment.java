@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @Table(name = "payments")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class) // 결제는 수정(updatedAt)이 발생하지 않으므로 개별 적용
+@EntityListeners(AuditingEntityListener.class)
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private Long id;
 
     @Column(name = "order_id", nullable = false)

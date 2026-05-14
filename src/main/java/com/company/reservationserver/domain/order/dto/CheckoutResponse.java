@@ -13,6 +13,7 @@ public record CheckoutResponse (
         // 숙소 상품 정보
         Long accommodationId,
         String accommodationName,
+        LocalDateTime eventStartTime,
         Long price,
         LocalDateTime checkInTime,
         LocalDateTime checkOutTime
