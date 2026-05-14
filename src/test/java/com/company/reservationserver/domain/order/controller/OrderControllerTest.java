@@ -8,14 +8,14 @@ import com.company.reservationserver.domain.payment.dto.BookingResponse;
 import com.company.reservationserver.domain.payment.dto.PaymentInfo;
 import com.company.reservationserver.domain.payment.dto.PaymentRequest;
 import com.company.reservationserver.domain.payment.entity.PaymentMethod;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +35,7 @@ class OrderControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockitoBean
+    @MockBean
     private BookingService bookingService;
 
     @Test

@@ -21,6 +21,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class CheckoutServiceTest {
+
     @InjectMocks
     private CheckoutService checkoutService;
 

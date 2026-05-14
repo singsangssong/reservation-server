@@ -1,8 +1,6 @@
 package com.company.reservationserver.domain.order.service;
 
-import com.company.reservationserver.domain.order.entity.Order;
 import com.company.reservationserver.domain.order.entity.OrderStatus;
-import com.company.reservationserver.domain.order.repository.OrderRepository;
 import com.company.reservationserver.domain.payment.dto.BookingRequest;
 import com.company.reservationserver.domain.payment.dto.BookingResponse;
 import com.company.reservationserver.domain.payment.dto.PaymentInfo;

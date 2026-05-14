@@ -15,7 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ class BookingConcurrencyTest {
     @Autowired
     private AccommodationRepository accommodationRepository;
 
-    @MockitoBean
+    @MockBean
     private PgClient pgClient;
 
     private Long savedAccommodationId;
