@@ -36,7 +36,7 @@ class AccommodationControllerTest {
     void getCheckoutInfo_Success() throws Exception {
         // given
         CheckoutResponse mockResponse = CheckoutResponse.builder()
-                .userId(1L).pointY(50000L).accommodationId(1L)
+                .userId(1L).point(50000L).accommodationId(1L)
                 .accommodationName("오션뷰 펜션").price(50000L)
                 .checkInTime(LocalDateTime.now()).checkOutTime(LocalDateTime.now().plusDays(1))
                 .build();
@@ -46,7 +46,7 @@ class AccommodationControllerTest {
         mockMvc.perform(get("/api/v1/accommodations/{accommodationId}/checkout", 1L)
                         .param("userId", "1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pointY").value(50000L));
+                .andExpect(jsonPath("$.point").value(50000L));
     }
 
     @Test

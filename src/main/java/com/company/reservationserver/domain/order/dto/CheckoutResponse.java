@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public record CheckoutResponse (
         // 사용자
         Long userId,
-        Long pointY,
+        Long point,
 
         // 숙소 상품 정보
         Long accommodationId,
@@ -24,7 +24,7 @@ public record CheckoutResponse (
     public static CheckoutResponse of(User user, Accommodation accommodation) {
         return CheckoutResponse.builder()
                 .userId(user.getId())
-                .pointY(user.getPointY())
+                .point(user.getPoint())
                 .accommodationId(accommodation.getId())
                 .accommodationName(accommodation.getName())
                 .eventStartTime(accommodation.getEventStartTime())

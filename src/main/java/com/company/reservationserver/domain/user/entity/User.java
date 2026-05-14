@@ -19,27 +19,27 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "point_y", nullable = false)
-    private Long pointY;
+    @Column(name = "point", nullable = false)
+    private Long point;
 
     @Builder
-    public User(Long pointY) {
-        this.pointY = pointY;
+    public User(Long point) {
+        this.point = point;
     }
 
     public void deductPoints(Long amount) {
-        if (this.pointY < amount) {
+        if (this.point < amount) {
             throw new IllegalArgumentException("포인트가 부족합니다.");
         }
-        this.pointY -= amount;
+        this.point -= amount;
     }
 
     public void deductPoint(Long amount) {
         if (amount <= 0) return;
 
-        if (this.pointY < amount) {
+        if (this.point < amount) {
             throw new PointNotEnoughException();
         }
-        this.pointY -= amount;
+        this.point -= amount;
     }
 }

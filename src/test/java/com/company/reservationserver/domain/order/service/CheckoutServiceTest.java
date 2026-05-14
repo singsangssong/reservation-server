@@ -46,7 +46,7 @@ class CheckoutServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(response.pointY(), 100000L);
+        assertEquals(response.point(), 100000L);
         assertEquals(response.accommodationName(), "초특가 오션뷰 펜션");
     }
 
@@ -54,7 +54,7 @@ class CheckoutServiceTest {
 
     private User createMockUser(Long point) {
         User user = User.builder()
-                .pointY(point)
+                .point(point)
                 .build();
         ReflectionTestUtils.setField(user, "id", 1L);
         return user;
