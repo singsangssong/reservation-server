@@ -26,3 +26,12 @@ spring:
     redis:
       host: localhost
       port: 16379
+
+resilience4j.circuitbreaker:
+  instances:
+    booking:
+      registerHealthIndicator: true
+      slidingWindowSize: 20             # 최근 20개의 요청을 기준으로 판단
+      failureRateThreshold: 50          # 실패율이 50% 이상이면 서킷 오픈 (Fast Fail)
+      waitDurationInOpenState: 10s      # 서킷이 열린 후 10초 동안은 무조건 차단(DB 보호)
+      permittedNumberOfCallsInHalfOpenState: 5 # 10초 후 5개만 흘려보내서 복구됐는지 간 보기

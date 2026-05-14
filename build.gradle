@@ -25,6 +25,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.redisson:redisson-spring-boot-starter:3.17.6'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:5.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:3.5.14'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

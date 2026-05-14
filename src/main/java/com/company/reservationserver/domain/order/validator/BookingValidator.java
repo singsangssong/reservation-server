@@ -18,7 +18,7 @@ public class BookingValidator {
 
     private void validateOpenTime() {
         LocalTime nowTime = LocalTime.now();
-        if (nowTime.isBefore(LocalTime.MIDNIGHT) || nowTime.isAfter(LocalTime.of(1, 0))) {
+        if (nowTime.isBefore(LocalTime.MIDNIGHT) || nowTime.isAfter(LocalTime.of(23, 0))) {
             throw new NotOpenTimeException();
         }
     }

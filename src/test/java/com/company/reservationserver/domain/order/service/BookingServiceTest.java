@@ -43,13 +43,14 @@ class BookingServiceTest {
         given(orderRepository.save(any(Order.class))).willReturn(mockOrder);
 
         // when
-         BookingResponse response = bookingService.postBooking(request);
+        BookingResponse response = bookingService.postBooking(request);
 
-         // then
-         assertEquals(response.status(), OrderStatus.SUCCESS);
+        // then
+        assertEquals(response.status(), OrderStatus.SUCCESS);
     }
 
     // ---------------------------- PRIVATE METHODS ----------------------------
+
     private BookingRequest createRequest(List<PaymentRequest> payments) {
         return new BookingRequest(1L, 1L, "uuid-1234", payments);
     }
